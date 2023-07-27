@@ -56,14 +56,14 @@ class Video_Manipulator:
             output, codec='libx264', fps=videos[0].fps
         )
 
-    def join_videos_layered(self, layers):
-        directory = "data/output/video_subtitles"
-        videos = Video_Utility.get_video_files_in_directory(directory)
+    def join_videos_layered(self, layers, directory):
+        DIR_FINAL = "data/output/final_videos"
 
+        videos = Video_Utility.get_video_files_in_directory(directory)
         base_directory = os.getcwd()
 
         for i in range(0, len(videos), layers):
-            output = f"data/output/final_videos/{layers}_layers/video_final_{i + 1}.mp4"
+            output = f"{DIR_FINAL}/{layers}_layers/video_final_{i + 1}.mp4"
 
             video_paths = [
                 os.path.join(

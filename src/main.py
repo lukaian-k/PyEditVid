@@ -7,19 +7,25 @@ from app.Video_Editor import Video_Editor
 
 
 class App:
+    DIR_DATA_INPUT = "data/input"
+    DIR_DATA_OUTPUT = "data/output"
+
     def split():
-        input_file = "data/input/input.mp4"
-        output_prefix = "data/output/cropped_videos/part"
+        videos_collected = Video_Utility.get_video_files_in_directory(
+            App.DIR_DATA_INPUT
+        )
+        input_file = f"{App.DIR_DATA_INPUT}/{videos_collected[0]}"
+        output_prefix = f"{App.DIR_DATA_OUTPUT}/cropped_videos/part"
 
         Video_Manipulator.split_video(input_file, output_prefix)
         messagebox.showinfo("Cortar o vídeo", "Todos os cortes foram feitos!")
 
     def add_text():
-        directory = "data/output/cropped_videos"
+        directory = f"{App.DIR_DATA_OUTPUT}/cropped_videos"
         video_files = Video_Utility.get_video_files_in_directory(directory)
 
         for index, filename in enumerate(video_files):
-            output_prefix = f"data/output/video_subtitles/{filename}"
+            output_prefix = f"{App.DIR_DATA_OUTPUT}/video_subtitles/{filename}"
             text = f"Parte {index+1}"
 
             Video_Editor.add_text_to_video(
@@ -30,12 +36,11 @@ class App:
         messagebox.showinfo("Adicionar texto", "Os textos foram adicionados!")
 
     def join_videos():
-        directory = "data/output/video_subtitles"
-        videos = Video_Utility.get_video_files_in_directory(directory)
+        directory = f"{App.DIR_DATA_OUTPUT}/video_subtitles"
 
         video_manipulator = Video_Manipulator()
-        video_manipulator.join_videos_layered(2)
-        video_manipulator.join_videos_layered(3)
+        video_manipulator.join_videos_layered(2, directory)
+        video_manipulator.join_videos_layered(3, directory)
         del video_manipulator
 
         messagebox.showinfo(
@@ -52,7 +57,9 @@ class App:
         ]
 
         for directory in directorys:
-            Video_Utility.clean_subdirectories("data/output/"+directory)
+            Video_Utility.clean_subdirectories(
+                f"{App.DIR_DATA_OUTPUT}/{directory}"
+            )
 
         messagebox.showinfo(
             "Limpar diretórios",
