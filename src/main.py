@@ -1,25 +1,25 @@
 import tkinter as tk
 from tkinter import messagebox
 
-from Video_Utility import Video_Utility
-from Video_Manipulator import Video_Manipulator
-from Video_Editor import Video_Editor
+from app.Video_Utility import Video_Utility
+from app.Video_Manipulator import Video_Manipulator
+from app.Video_Editor import Video_Editor
 
 
 class App:
     def split():
-        input_file = "input.mp4"
-        output_prefix = "cropped_videos/part"
+        input_file = "data/input/input.mp4"
+        output_prefix = "data/output/cropped_videos/part"
 
         Video_Manipulator.split_video(input_file, output_prefix)
         messagebox.showinfo("Cortar o vídeo", "Todos os cortes foram feitos!")
 
     def add_text():
-        directory = "cropped_videos"
+        directory = "data/output/cropped_videos"
         video_files = Video_Utility.get_video_files_in_directory(directory)
 
         for index, filename in enumerate(video_files):
-            output_prefix = f"video_subtitles/{filename}"
+            output_prefix = f"data/output/video_subtitles/{filename}"
             text = f"Parte {index+1}"
 
             Video_Editor.add_text_to_video(
@@ -30,7 +30,7 @@ class App:
         messagebox.showinfo("Adicionar texto", "Os textos foram adicionados!")
 
     def join_videos():
-        directory = "video_subtitles"
+        directory = "data/output/video_subtitles"
         videos = Video_Utility.get_video_files_in_directory(directory)
 
         video_manipulator = Video_Manipulator()
@@ -52,7 +52,7 @@ class App:
         ]
 
         for directory in directorys:
-            Video_Utility.clean_subdirectories(directory)
+            Video_Utility.clean_subdirectories("data/output/"+directory)
 
         messagebox.showinfo(
             "Limpar diretórios",

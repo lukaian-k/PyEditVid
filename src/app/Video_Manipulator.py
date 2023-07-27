@@ -1,7 +1,7 @@
 from moviepy.editor import VideoFileClip, concatenate_videoclips, CompositeVideoClip
 import os
 
-from Video_Utility import Video_Utility
+from app.Video_Utility import Video_Utility
 
 
 class Video_Manipulator:
@@ -57,13 +57,13 @@ class Video_Manipulator:
         )
 
     def join_videos_layered(self, layers):
-        directory = "video_subtitles"
+        directory = "data/output/video_subtitles"
         videos = Video_Utility.get_video_files_in_directory(directory)
 
         base_directory = os.getcwd()
 
         for i in range(0, len(videos), layers):
-            output = f"final_videos/{layers}_layers/video_final_{i + 1}.mp4"
+            output = f"data/output/final_videos/{layers}_layers/video_final_{i + 1}.mp4"
 
             video_paths = [
                 os.path.join(
