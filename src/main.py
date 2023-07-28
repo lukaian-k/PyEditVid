@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
+import shutil
 import os
 
 from app.Video_Utility import Video_Utility
@@ -27,6 +28,17 @@ class App:
             if not os.path.exists(directory):
                 os.makedirs(directory)
                 print(f"Criando o diretório: {directory}")
+
+    def choose_file():
+        file = filedialog.askopenfilename()
+
+        if file:
+            Video_Utility.clean_subdirectories(App.DIR_DATA_INPUT)
+            shutil.copy(file, os.path.join("data", "input"))
+
+            messagebox.showinfo(
+                "Selecione o vídeo", "Arquivo selecionado!"
+            )
 
     def split():
         App.ensure_directories_exist()
@@ -99,7 +111,7 @@ App.ensure_directories_exist()
 
 root = tk.Tk()
 root.title("PyEditVid")
-root.geometry("235x300")
+root.geometry("235x335")
 
 palette = [
     "#4d2600",
@@ -155,6 +167,17 @@ btn_04 = tk.Button(
 )
 btn_04.grid(row=3, pady=10, padx=20, sticky="ew")
 
+insert_btn = tk.Button(
+    root,
+    text="Selecione o vídeo",
+    command=App.choose_file,
+    font=custom_font,
+    bg=palette[1],
+    fg="white",
+    padx=20
+)
+insert_btn.grid(row=4, pady=10, padx=20, sticky="ew")
+
 quit_btn = tk.Button(
     root,
     text="Quit",
@@ -164,7 +187,7 @@ quit_btn = tk.Button(
     fg="white",
     padx=20
 )
-quit_btn.grid(row=4, pady=20, padx=20, sticky="ew")
+quit_btn.grid(row=5, pady=20, padx=20, sticky="ew")
 
 window_width = root.winfo_reqwidth()
 window_height = root.winfo_reqheight()
