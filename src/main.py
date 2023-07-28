@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import messagebox
+import os
 
 from app.Video_Utility import Video_Utility
 from app.Video_Manipulator import Video_Manipulator
@@ -10,7 +11,26 @@ class App:
     DIR_DATA_INPUT = "data/input"
     DIR_DATA_OUTPUT = "data/output"
 
+    def ensure_directories_exist():
+        required_directories = [
+            "data",
+            "data/input",
+            "data/output",
+            "data/output/cropped_videos",
+            "data/output/video_subtitles",
+            "data/output/final_videos",
+            "data/output/final_videos/2_layers",
+            "data/output/final_videos/3_layers",
+        ]
+
+        for directory in required_directories:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+                print(f"Criando o diretório: {directory}")
+
     def split():
+        App.ensure_directories_exist()
+
         videos_collected = Video_Utility.get_video_files_in_directory(
             App.DIR_DATA_INPUT
         )
@@ -21,6 +41,8 @@ class App:
         messagebox.showinfo("Cortar o vídeo", "Todos os cortes foram feitos!")
 
     def add_text():
+        App.ensure_directories_exist()
+
         directory = f"{App.DIR_DATA_OUTPUT}/cropped_videos"
         video_files = Video_Utility.get_video_files_in_directory(directory)
 
@@ -36,6 +58,7 @@ class App:
         messagebox.showinfo("Adicionar texto", "Os textos foram adicionados!")
 
     def join_videos():
+        App.ensure_directories_exist()
         directory = f"{App.DIR_DATA_OUTPUT}/video_subtitles"
 
         video_manipulator = Video_Manipulator()
@@ -49,6 +72,8 @@ class App:
         )
 
     def clean():
+        App.ensure_directories_exist()
+
         directorys = [
             "cropped_videos",
             "video_subtitles",
@@ -69,6 +94,8 @@ class App:
     def quit_application():
         root.quit()
 
+
+App.ensure_directories_exist()
 
 root = tk.Tk()
 root.title("PyEditVid")
