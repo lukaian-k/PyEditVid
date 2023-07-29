@@ -26,7 +26,7 @@ O PyEditVid é uma ferramenta de edição de vídeo simples, porém eficiente, d
 
 ## Demonstração
 
-<!-- [Inserir links para uma demonstração ao vivo, capturas de tela ou vídeos que mostram o projeto em ação.] -->
+![demonstration](assets/demonstration.gif)
 
 ## Pré-requisitos
 
